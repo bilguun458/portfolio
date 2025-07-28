@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import clsx from 'clsx'
 
-export function ChatbotModal({ isOpen, onClose }) {
+export function ChatbotModal({ isOpen, onClose, buttonRef }) {
   const [messages, setMessages] = useState([
     {
       id: 1,
@@ -14,6 +14,8 @@ export function ChatbotModal({ isOpen, onClose }) {
   const [isTyping, setIsTyping] = useState(false)
   const [isAnimating, setIsAnimating] = useState(false)
   const [newMessageId, setNewMessageId] = useState(null)
+  const [buttonPosition, setButtonPosition] = useState({ x: 0, y: 0 })
+  const [modalPosition, setModalPosition] = useState({ x: 0, y: 0 })
   const messagesEndRef = useRef(null)
   const inputRef = useRef(null)
 
@@ -28,13 +30,39 @@ export function ChatbotModal({ isOpen, onClose }) {
     scrollToBottom()
   }, [messages, isTyping])
 
+  const calculateButtonPosition = () => {
+    if (buttonRef?.current) {
+      const rect = buttonRef.current.getBoundingClientRect()
+      const centerX = rect.left + rect.width / 2
+      const centerY = rect.top + rect.height / 2
+      setButtonPosition({ x: centerX, y: centerY })
+      
+      // Calculate modal center position
+      const modalCenterX = window.innerWidth / 2
+      const modalCenterY = window.innerHeight / 2
+      setModalPosition({ x: modalCenterX, y: modalCenterY })
+    }
+  }
+
   useEffect(() => {
     if (isOpen) {
+      calculateButtonPosition()
       setIsAnimating(true)
       inputRef.current?.focus()
     } else {
       setIsAnimating(false)
     }
+  }, [isOpen])
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (isOpen) {
+        calculateButtonPosition()
+      }
+    }
+
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
   }, [isOpen])
 
   const handleClose = () => {
@@ -107,42 +135,63 @@ export function ChatbotModal({ isOpen, onClose }) {
       {/* Apple-style backdrop with blur */}
       <div 
         className={clsx(
-          "absolute inset-0 bg-black/30 backdrop-blur-xl transition-all duration-200",
-          isOpen ? "opacity-100" : "opacity-0"
+          "absolute inset-0 bg-black/30 backdrop-blur-xl transition-all duration-700 ease-out",
+          isOpen ? "opacity-100 scale-100" : "opacity-0 scale-110"
         )}
         onClick={handleClose}
       />
       
       {/* Apple-style modal */}
-      <div className={clsx(
-        "relative w-full h-full max-w-4xl max-h-[90vh] bg-white/80 dark:bg-zinc-900/90 backdrop-blur-2xl rounded-3xl shadow-2xl flex flex-col transition-all duration-200 ease-out transform border border-white/20 dark:border-zinc-800/50",
-        isOpen 
-          ? "opacity-100 scale-100 translate-y-0" 
-          : "opacity-0 scale-95 translate-y-full"
-      )}>
+      <div 
+        className={clsx(
+          "relative w-[95vw] h-[90vh] max-w-4xl max-h-[90vh] bg-white/80 dark:bg-zinc-900/90 backdrop-blur-2xl rounded-3xl shadow-2xl flex flex-col transition-all duration-700 ease-out transform border border-white/20 dark:border-zinc-800/50",
+          "sm:w-[90vw] sm:h-[85vh] md:w-[85vw] md:h-[80vh] lg:w-[80vw] lg:h-[75vh]",
+          isOpen 
+            ? "opacity-100 scale-100 translate-x-0 translate-y-0 rotate-0" 
+            : "opacity-0 scale-25 rotate-45"
+        )}
+        style={{
+          transformOrigin: isOpen ? 'center' : `${buttonPosition.x}px ${buttonPosition.y}px`,
+          transform: isOpen 
+            ? 'translate(-50%, -50%) scale(1) rotate(0deg)' 
+            : `translate(${buttonPosition.x - modalPosition.x}px, ${buttonPosition.y - modalPosition.y}px) scale(0.25) rotate(45deg)`,
+          left: '50%',
+          top: '50%',
+          position: 'absolute'
+        }}
+      >
         {/* Apple-style header */}
         <div className={clsx(
-          "flex items-center justify-between p-8 border-b border-zinc-200/50 dark:border-zinc-700/50 transition-all duration-200 delay-50",
-          isOpen ? "translate-y-0 opacity-100" : "translate-y-[-10px] opacity-0"
+          "flex items-center justify-between p-4 sm:p-6 md:p-8 border-b border-zinc-200/50 dark:border-zinc-700/50 transition-all duration-600 delay-300 ease-out",
+          isOpen ? "translate-y-0 opacity-100 scale-100" : "translate-y-[-30px] opacity-0 scale-90"
         )}>
           <div className="flex items-center space-x-4">
             <div className={clsx(
-              "w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center transition-all duration-200 delay-100 shadow-lg relative overflow-hidden",
+              "w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center transition-all duration-600 delay-400 ease-out shadow-lg relative overflow-hidden",
               isOpen ? "scale-100 rotate-0" : "scale-0 rotate-180"
             )}>
               <div className="absolute inset-0 bg-gradient-to-br from-indigo-400 to-purple-600 animate-pulse opacity-20"></div>
-              <svg className="w-7 h-7 text-white relative z-10" fill="currentColor" viewBox="0 0 24 24">
+              <svg className={clsx(
+                "w-6 h-6 sm:w-7 sm:h-7 text-white relative z-10 transition-all duration-500",
+                isOpen ? "scale-100 rotate-0" : "scale-0 rotate-90"
+              )} fill="currentColor" viewBox="0 0 24 24">
                 <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h4l4 4 4-4h4c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
               </svg>
             </div>
             <div className={clsx(
-              "transition-all duration-200 delay-150",
-              isOpen ? "translate-x-0 opacity-100" : "translate-x-[-10px] opacity-0"
+              "transition-all duration-600 delay-500 ease-out",
+              isOpen ? "translate-x-0 opacity-100 scale-100" : "translate-x-[-30px] opacity-0 scale-90"
             )}>
-              <h2 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent tracking-tight">
+              <h2 className={clsx(
+                "text-xl sm:text-2xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent tracking-tight transition-all duration-600",
+                isOpen ? "scale-100 translate-y-0" : "scale-90 translate-y-3"
+              )}>
                 Welcome
               </h2>
-              <p className="text-sm text-zinc-500 dark:text-zinc-400 font-medium">
+              <p className={clsx(
+                "text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 font-medium transition-all duration-600 delay-200",
+                isOpen ? "scale-100 translate-y-0 opacity-100" : "scale-90 translate-y-3 opacity-0"
+              )}>
                 Ask anything about me
               </p>
             </div>
@@ -150,8 +199,8 @@ export function ChatbotModal({ isOpen, onClose }) {
           <button
             onClick={handleClose}
             className={clsx(
-              "p-3 rounded-2xl hover:bg-zinc-100 dark:hover:bg-zinc-800/50 transition-all duration-200 delay-200 group",
-              isOpen ? "scale-100 opacity-100" : "scale-0 opacity-0"
+              "p-3 rounded-2xl hover:bg-zinc-100 dark:hover:bg-zinc-800/50 transition-all duration-600 delay-600 ease-out group",
+              isOpen ? "scale-100 opacity-100 rotate-0" : "scale-0 opacity-0 rotate-90"
             )}
           >
             <svg className="w-6 h-6 text-zinc-400 dark:text-zinc-500 group-hover:text-zinc-600 dark:group-hover:text-zinc-300 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -162,8 +211,8 @@ export function ChatbotModal({ isOpen, onClose }) {
 
         {/* Apple-style messages */}
         <div className={clsx(
-          "flex-1 overflow-y-auto p-8 space-y-6 transition-all duration-200 delay-100 flex flex-col-reverse",
-          isOpen ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          "flex-1 overflow-y-auto p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6 transition-all duration-600 delay-400 ease-out flex flex-col-reverse",
+          isOpen ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-10 scale-90"
         )}>
           <div className="flex flex-col space-y-6">
             {messages.map((message, index) => (
@@ -184,7 +233,7 @@ export function ChatbotModal({ isOpen, onClose }) {
               >
                 <div
                   className={clsx(
-                    'max-w-xs lg:max-w-md px-6 py-4 transition-all duration-200 shadow-lg backdrop-blur-sm',
+                    'max-w-[85%] sm:max-w-xs lg:max-w-md px-4 sm:px-6 py-3 sm:py-4 transition-all duration-200 shadow-lg backdrop-blur-sm',
                     message.type === 'user'
                       ? 'bg-gradient-to-br from-indigo-500 to-purple-600 text-white rounded-2xl rounded-br-md shadow-indigo-500/25'
                       : 'bg-white/80 dark:bg-zinc-800/80 text-zinc-900 dark:text-zinc-100 rounded-2xl rounded-bl-md shadow-zinc-500/10 border border-white/20 dark:border-zinc-700/50',
@@ -221,10 +270,10 @@ export function ChatbotModal({ isOpen, onClose }) {
 
         {/* Apple-style input */}
         <div className={clsx(
-          "p-8 border-t border-zinc-200/50 dark:border-zinc-700/50 transition-all duration-200 delay-150",
-          isOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+          "p-4 sm:p-6 md:p-8 border-t border-zinc-200/50 dark:border-zinc-700/50 transition-all duration-600 delay-500 ease-out",
+          isOpen ? "translate-y-0 opacity-100 scale-100" : "translate-y-10 opacity-0 scale-90"
         )}>
-          <div className="flex space-x-4">
+          <div className="flex space-x-2 sm:space-x-4">
             <div className="flex-1 relative">
               <textarea
                 ref={inputRef}
@@ -233,22 +282,22 @@ export function ChatbotModal({ isOpen, onClose }) {
                 onKeyPress={handleKeyPress}
                 placeholder="Type your message..."
                 className={clsx(
-                  "w-full px-6 py-4 border border-zinc-300/50 dark:border-zinc-600/50 rounded-2xl focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 resize-none dark:bg-zinc-800/30 dark:text-zinc-100 transition-all duration-200",
+                  "w-full px-4 sm:px-6 py-3 sm:py-4 border border-zinc-300/50 dark:border-zinc-600/50 rounded-2xl focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 resize-none dark:bg-zinc-800/30 dark:text-zinc-100 transition-all duration-200",
                   "hover:border-zinc-400/50 dark:hover:border-zinc-500/50 placeholder-zinc-400 dark:placeholder-zinc-500",
                   "shadow-sm backdrop-blur-sm bg-white/80 dark:bg-zinc-800/80"
                 )}
                 rows="1"
-                style={{ minHeight: '56px', maxHeight: '120px' }}
+                style={{ minHeight: '48px', maxHeight: '120px' }}
               />
             </div>
             <button
               onClick={handleSendMessage}
               disabled={!inputValue.trim() || isTyping}
               className={clsx(
-                'px-8 py-4 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-2xl font-semibold transition-all duration-200',
+                'px-4 sm:px-6 md:px-8 py-3 sm:py-4 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-2xl font-semibold transition-all duration-200',
                 'hover:from-indigo-600 hover:to-purple-700 focus:ring-2 focus:ring-indigo-500/50 focus:ring-offset-2',
                 'disabled:opacity-50 disabled:cursor-not-allowed',
-                'flex items-center space-x-3 hover:scale-105 active:scale-95',
+                'flex items-center space-x-2 sm:space-x-3 hover:scale-105 active:scale-95',
                 'shadow-lg hover:shadow-xl shadow-indigo-500/25 backdrop-blur-sm'
               )}
             >

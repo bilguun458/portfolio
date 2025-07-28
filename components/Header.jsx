@@ -124,6 +124,7 @@ function Avatar({ large = false, className, ...props }) {
 export function Header() {
 
   const [isChatbotOpen, setIsChatbotOpen] = useState(false)
+  const chatbotButtonRef = useRef(null)
   
 
   return (
@@ -137,7 +138,8 @@ export function Header() {
       >
         <ChatbotModal 
           isOpen={isChatbotOpen} 
-          onClose={() => setIsChatbotOpen(false)} 
+          onClose={() => setIsChatbotOpen(false)}
+          buttonRef={chatbotButtonRef}
         />
         <div
           className="top-0 z-10 h-16 pt-6"
@@ -152,6 +154,7 @@ export function Header() {
                 <div className="pointer-events-auto">
               
                   <button
+                    ref={chatbotButtonRef}
                     type="button"
                     aria-label="Toggle dark mode"
                     className="floating-button group rounded-full bg-white/90 px-3 py-2 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur transition dark:bg-zinc-800/90 dark:ring-white/10 dark:hover:ring-white/20"
