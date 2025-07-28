@@ -51,9 +51,28 @@ export default function Document() {
           href={`${process.env.NEXT_PUBLIC_SITE_URL}/rss/feed.json`}
         />
       </Head>
-      <body className="flex h-full flex-col bg-zinc-50 dark:bg-black">
-        <Main />
-        <NextScript />
+      <body>
+        <div className="gradient-bg">
+        <div className="body flex h-full flex-col bg-zinc-50 dark:bg-black">
+        <div className="gradient-background">
+          <div className="gradient-sphere sphere-1"></div>
+          <div className="gradient-sphere sphere-2"></div>
+          <div className="gradient-sphere sphere-3"></div>
+          <div className="glow"></div>
+          <div className="grid-overlay"></div>
+          <div className="noise-overlay"></div>
+          <div className="particles-container" id="particles-container"></div>
+        
+        
+        </div>
+        <div className="main">
+          <Main />
+          <NextScript />
+        </div>
+       
+        </div>
+        </div>
+        <script src="/portfolio/bg.js"></script>
       </body>
     </Html>
   )

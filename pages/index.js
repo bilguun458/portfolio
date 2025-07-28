@@ -7,10 +7,10 @@ import { Container } from '../components/Container'
 import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
 import {
-  GitHubIcon,
   InstagramIcon,
   LinkedInIcon,
-  TwitterIcon,
+  MetaIcon,
+  PhoneIcon
 } from '../components/SocialIcons'
 
 function SocialLink({ className, href, children, icon: Icon }) {
@@ -145,7 +145,7 @@ function Resume() {
         ))}
       </ol>
       <Button href="#" variant="secondary" className="group mt-6 w-full">
-        Download CV
+        Resume
         <ArrowDownIcon className="h-4 w-4 stroke-zinc-400 transition group-active:stroke-zinc-600 dark:group-hover:stroke-zinc-50 dark:group-active:stroke-zinc-50" />
       </Button>
     </div>
@@ -177,108 +177,70 @@ export default function About() {
             </div>
             <div className="lg:order-first lg:row-span-2">
               <h1 className="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
-              Welcome to my Web Development Portofolio!
+              Welcome to my Portofolio
               </h1>
-              <div className="mt-6 space-y-7 text-base text-zinc-600 dark:text-zinc-400">
+              <div className="mt-6 space-y-7 text-base text-zinc-800 dark:text-zinc-200">
                 <p>
-                  I'm Bilguun Batnasan, a passionate Software Engineer with over 6 Years of Experience based in USA. Here, you'll find a space that  of my journey in the world of web development, where creativity meets functionality.
+                  Hi, I’m Bilguun Batnasan, a passionate Software Engineer based in the USA with over 6 years of experience in designing, building, and optimizing Web/Mobile applications and distributed systems.
                 </p>
-                <div className="mt-6 flex gap-6">
+                <p>
+                Here, you'll find a space that reflects both my professional journey and a bit of my personal life where code, creativity and curiosity go hand in hand.
+                </p>
+                <div className="flex gap-6">
                   <SocialIcon
-                    href="https://twitter.com"
-                    aria-label="Follow on Twitter"
-                    icon={TwitterIcon}
-                  />
-                  <SocialIcon
-                    href="https://instagram.com"
-                    aria-label="Follow on Instagram"
-                    icon={InstagramIcon}
-                  />
-                  <SocialIcon
-                    href="https://github.com"
-                    aria-label="Follow on GitHub"
-                    icon={GitHubIcon}
-                  />
-                  <SocialIcon
-                    href="https://linkedin.com"
+                    href="https://www.linkedin.com/in/bbatnasan29/"
                     aria-label="Follow on LinkedIn"
                     icon={LinkedInIcon}
                   />
+                  <SocialIcon
+                    href="https://www.facebook.com/bilguun1020/"
+                    aria-label="Follow on Facebook"
+                    icon={MetaIcon}
+                  />
+                  <SocialIcon
+                    href="https://instagram.com/bilguun1020/"
+                    aria-label="Follow on Instagram"
+                    icon={InstagramIcon}
+                  />
                 </div>
-                <div className="lg:pl-20">
-                  <ul role="list">
-                    <SocialLink href="#" icon={InstagramIcon} className="mt-4">
-                      Follow on Instagram
-                    </SocialLink>
-                    <SocialLink href="#" icon={GitHubIcon} className="mt-4">
-                      Follow on GitHub
-                    </SocialLink>
-                    <SocialLink href="#" icon={LinkedInIcon} className="mt-4">
-                      Follow on LinkedIn
-                    </SocialLink>
-                    <SocialLink
-                      href="mailto:spencer@planetaria.tech"
-                      icon={MailIcon}
-                      className="mt-8 border-t border-zinc-100 pt-8 dark:border-zinc-700/40"
-                    >
-                      spencer@planetaria.tech
-                    </SocialLink>
-                  </ul>
+                
+                <div>
+                I am an innovative and results-driven software engineer with a strong foundation in:
+                <ul className='p-4'>
+                  <li className="flex">🏗️  Scalable architecture design</li>
+                  <li className="flex mt-2">🚀  Full-stack development</li>
+                  <li className="flex mt-2">📱  Mobile development</li>
+                  <li className="flex mt-2">⚡  Performance optimization</li>
+                  <li className="flex mt-2">🎯  User-centered design</li>
+                </ul>
+                My work spans across e-commerce, media streaming, and enterprise platforms, where I’ve led initiatives to improve system performance, elevate user experience, and enhance engineering productivity through clean, maintainable code and cross-functional teamwork.
                 </div>
-                <p>
-                  I’ve loved making things for as long as I can remember, and
-                  wrote my first program when I was 6 years old, just two weeks
-                  after my mom brought home the brand new Macintosh LC 550 that I
-                  taught myself to type on.
-                </p>
-                <p>
-                  The only thing I loved more than computers as a kid was space.
-                  When I was 8, I climbed the 40-foot oak tree at the back of our
-                  yard while wearing my older sister’s motorcycle helmet, counted
-                  down from three, and jumped — hoping the tree was tall enough
-                  that with just a bit of momentum I’d be able to get to orbit.
-                </p>
-                <p>
-                  I spent the next few summers indoors working on a rocket design,
-                  while I recovered from the multiple surgeries it took to fix my
-                  badly broken legs. It took nine iterations, but when I was 15 I
-                  sent my dad’s Blackberry into orbit and was able to transmit a
-                  photo back down to our family computer from space.
-                </p>
-                <p>
-                  Today, I’m the founder of Planetaria, where we’re working on
-                  civilian space suits and manned shuttle kits you can assemble at
-                  home so that the next generation of kids really <em>can</em>{' '}
-                  make it to orbit — from the comfort of their own backyards.
-                </p>
+                <div>
+                When I’m not coding, I’m most at home in nature. I’m a nature lover at heart and find deep fulfillment in being outdoors. Whether it's hiking through scenic trails, or just enjoying time surrounded by trees and mountains.
+
+                I also have a strong passion for soft extreme sports, including:
+                <ul className='p-4'>
+                  <li className="flex">🚵  Mountain Biking</li>
+                  <li className="flex mt-2">🎿  Skiing</li>
+                  <li className="flex mt-2">🏂  Snowboarding</li>
+                </ul>
+                These activities fuel my creativity, sharpen my focus, and give me fresh perspective that I bring into my work.
+                </div>
               </div>
             </div>
             <div className="lg:pl-20">
-              <ul role="list">
-                <SocialLink href="#" icon={TwitterIcon}>
-                  Follow on Twitter
-                </SocialLink>
-                <SocialLink href="#" icon={InstagramIcon} className="mt-4">
-                  Follow on Instagram
-                </SocialLink>
-                <SocialLink href="#" icon={GitHubIcon} className="mt-4">
-                  Follow on GitHub
-                </SocialLink>
-                <SocialLink href="#" icon={LinkedInIcon} className="mt-4">
-                  Follow on LinkedIn
-                </SocialLink>
+              <Resume />
+              <div className="pl-12 pr-12">
                 <SocialLink
-                  href="mailto:spencer@planetaria.tech"
+                  href="mailto:batnasanbilguun29@gmail.com"
                   icon={MailIcon}
                   className="mt-8 border-t border-zinc-100 pt-8 dark:border-zinc-700/40"
                 >
-                  spencer@planetaria.tech
+                  Contact me by Email
                 </SocialLink>
-              </ul>
-              <Resume />
-              <div className="space-y-10 lg:pl-16 xl:pl-24">
-                {/* <Newsletter /> */}
-                <Resume />
+                <SocialLink href="tel:+16418191619" icon={PhoneIcon} className="mt-4">
+                  Contact me by Phone
+                </SocialLink>
               </div>
             </div>
           </div>
