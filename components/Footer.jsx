@@ -23,7 +23,7 @@ export function Footer() {
           <Container.Inner>
             <div className="flex flex-row items-center">
               <div className="text-sm text-zinc-600 dark:text-zinc-300">
-                &copy; {new Date().getFullYear()} Bilguun Batnasan's Portfolio
+                &copy; {new Date().getFullYear()} Bilguun Batnasan - Portfolio
                 </div>
                 <div className="text-zinc-700 dark:text-zinc-200 flex">
                   <div className="ml-4 inline-flex self-center gap-6 ">

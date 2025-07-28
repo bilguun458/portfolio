@@ -159,7 +159,7 @@ export default function About() {
         <title>Bilguun Batnasan - Portfolio</title>
         <meta
           name="description"
-          content="I’m Spencer Sharp. I live in New York City, where I design the future."
+          content="I’m Bilguun Batnasan. Based in US."
         />
       </Head>
       <div className="relative">
@@ -177,11 +177,11 @@ export default function About() {
             </div>
             <div className="lg:order-first lg:row-span-2">
               <h1 className="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
-              Welcome to my Portofolio
+              Welcome to my Portfolio
               </h1>
               <div className="mt-6 space-y-7 text-base text-zinc-800 dark:text-zinc-200">
                 <p>
-                  Hi, I’m Bilguun Batnasan, a passionate Software Engineer based in the USA with over 6 years of experience in designing, building, and optimizing Web/Mobile applications and distributed systems.
+                  Hello, I’m Bilguun Batnasan, a passionate Software Engineer based in the USA with over 6 years of experience in designing, building, and optimizing Web/Mobile applications and distributed systems.
                 </p>
                 <p>
                 Here, you'll find a space that reflects both my professional journey and a bit of my personal life where code, creativity and curiosity go hand in hand.
@@ -230,11 +230,10 @@ export default function About() {
             </div>
             <div className="lg:pl-20">
               <Resume />
-              <div className="pl-12 pr-12">
+              <div className="p-10">
                 <SocialLink
                   href="mailto:batnasanbilguun29@gmail.com"
                   icon={MailIcon}
-                  className="mt-8 border-t border-zinc-100 pt-8 dark:border-zinc-700/40"
                 >
                   Contact me by Email
                 </SocialLink>
