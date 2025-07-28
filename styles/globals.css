@@ -4,6 +4,23 @@
 @tailwind utilities;
 
 
+.floating-button {
+    position: absolute;
+    top: 5px;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px); /* Moves up 10px */
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
 /* Gradient BG */
 * {
     margin: 0;
