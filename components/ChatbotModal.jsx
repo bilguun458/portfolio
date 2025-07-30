@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import clsx from 'clsx'
+import { sendMessageToOpenAI } from '../utils/openai'
 
 export function ChatbotModal({ isOpen, onClose, buttonRef }) {
   const [messages, setMessages] = useState([
@@ -72,28 +73,33 @@ export function ChatbotModal({ isOpen, onClose, buttonRef }) {
     }, 200)
   }
 
-  const handleSendMessage = async () => {
-    if (!inputValue.trim()) return
+  const handleSendMessage = async (customMessage = null) => {
+    const messageToSend = (customMessage || inputValue || '').toString()
+    if (!messageToSend.trim()) return
 
     const userMessage = {
       id: Date.now(),
       type: 'user',
-      content: inputValue,
+      content: messageToSend,
       timestamp: new Date()
     }
 
     setMessages(prev => [...prev, userMessage])
     setNewMessageId(userMessage.id)
-    setInputValue('')
+    if (!customMessage) {
+      setInputValue('')
+    }
     setIsTyping(true)
 
     setTimeout(() => setNewMessageId(null), 1000)
 
-    setTimeout(() => {
+    try {
+      const aiResponseContent = await generateAIResponse(messageToSend)
+      
       const aiResponse = {
         id: Date.now() + 1,
         type: 'ai',
-        content: generateAIResponse(inputValue),
+        content: aiResponseContent,
         timestamp: new Date()
       }
       setMessages(prev => [...prev, aiResponse])
@@ -101,21 +107,30 @@ export function ChatbotModal({ isOpen, onClose, buttonRef }) {
       setIsTyping(false)
       
       setTimeout(() => setNewMessageId(null), 1000)
-    }, 1000 + Math.random() * 1000)
+    } catch (error) {
+      console.error('Error in handleSendMessage:', error)
+      const errorResponse = {
+        id: Date.now() + 1,
+        type: 'ai',
+        content: "I'm sorry, I'm having trouble processing your request right now. Please try again or contact Bilguun directly at batnasanbilguun29@gmail.com",
+        timestamp: new Date()
+      }
+      setMessages(prev => [...prev, errorResponse])
+      setNewMessageId(errorResponse.id)
+      setIsTyping(false)
+      
+      setTimeout(() => setNewMessageId(null), 1000)
+    }
   }
 
-  const generateAIResponse = (userInput) => {
-    const responses = [
-      "That's an interesting question! Let me think about that...",
-      "I understand what you're asking. Here's what I can tell you...",
-      "Great question! Based on my knowledge, I'd say...",
-      "I'm here to help! Let me provide some insights on that...",
-      "Thanks for asking! Here's my perspective on this...",
-      "I appreciate your question. Let me share some thoughts...",
-      "That's a thoughtful inquiry. Here's what I think...",
-      "Interesting point! Let me elaborate on that..."
-    ]
-    return responses[Math.floor(Math.random() * responses.length)]
+  const generateAIResponse = async (userInput) => {
+    try {
+      const response = await sendMessageToOpenAI(userInput)
+      return response
+    } catch (error) {
+      console.error('Error generating AI response:', error)
+      return "I'm sorry, I'm having trouble processing your request right now. Please try again or contact Bilguun directly at batnasanbilguun29@gmail.com"
+    }
   }
 
   const handleKeyPress = (e) => {
@@ -144,7 +159,7 @@ export function ChatbotModal({ isOpen, onClose, buttonRef }) {
       {/* Apple-style modal */}
       <div 
         className={clsx(
-          "relative w-[95vw] h-[90vh] max-w-4xl max-h-[90vh] bg-white/80 dark:bg-zinc-900/90 backdrop-blur-2xl rounded-3xl shadow-2xl flex flex-col transition-all duration-700 ease-out transform border border-white/20 dark:border-zinc-800/50",
+          "relative w-[95vw] h-[90vh] max-w-4xl max-h-[90vh] bg-white/80 dark:bg-zinc-800/80 backdrop-blur-2xl rounded-3xl shadow-2xl flex flex-col transition-all duration-700 ease-out transform border border-white/20 dark:border-zinc-700/50",
           "sm:w-[90vw] sm:h-[85vh] md:w-[85vw] md:h-[80vh] lg:w-[80vw] lg:h-[75vh]",
           isOpen 
             ? "opacity-100 scale-100 translate-x-0 translate-y-0 rotate-0" 
@@ -192,7 +207,7 @@ export function ChatbotModal({ isOpen, onClose, buttonRef }) {
                 "text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 font-medium transition-all duration-600 delay-200",
                 isOpen ? "scale-100 translate-y-0 opacity-100" : "scale-90 translate-y-3 opacity-0"
               )}>
-                Ask anything about me
+                to my AI assistant
               </p>
             </div>
           </div>
@@ -240,20 +255,17 @@ export function ChatbotModal({ isOpen, onClose, buttonRef }) {
                   />
                 </div>
               )}
-              <div
-                className={clsx(
-                  'max-w-[85%] sm:max-w-xs lg:max-w-md px-4 sm:px-6 py-3 sm:py-4 transition-all duration-200 shadow-lg backdrop-blur-sm',
-                  message.type === 'user'
-                    ? 'bg-gradient-to-br from-indigo-500 to-purple-600 text-white rounded-2xl rounded-br-md shadow-indigo-500/25'
-                    : 'bg-white/80 dark:bg-zinc-800/80 text-zinc-900 dark:text-zinc-100 rounded-2xl rounded-bl-md shadow-zinc-500/10 border border-white/20 dark:border-zinc-700/50',
-                  newMessageId === message.id && 'animate-button-pulse scale-105'
-                )}
-              >
-                <p className="text-sm leading-relaxed font-medium">{message.content}</p>
-                <p className="text-xs opacity-70 mt-2 font-medium">
-                  {message.timestamp.toLocaleTimeString()}
-                </p>
-              </div>
+                                              <div
+                  className={clsx(
+                    'max-w-[85%] sm:max-w-xs lg:max-w-md px-4 sm:px-6 py-3 sm:py-4 transition-all duration-200 shadow-lg backdrop-blur-sm',
+                    message.type === 'user'
+                      ? 'bg-gradient-to-br from-indigo-500 to-purple-600 text-white rounded-2xl rounded-br-md shadow-indigo-500/25'
+                      : 'bg-white/80 dark:bg-zinc-700/80 text-zinc-900 dark:text-zinc-100 rounded-2xl rounded-bl-md shadow-zinc-500/10 border border-white/20 dark:border-zinc-600/50',
+                    newMessageId === message.id && 'animate-button-pulse scale-105'
+                  )}
+                >
+                  <p className="text-sm leading-relaxed font-medium">{message.content}</p>
+                </div>
             </div>
           ))}
             
@@ -270,7 +282,7 @@ export function ChatbotModal({ isOpen, onClose, buttonRef }) {
                     className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover border-2 border-white/20 dark:border-zinc-700/50 shadow-sm"
                   />
                 </div>
-                <div className="bg-white/80 dark:bg-zinc-800/80 px-6 py-4 rounded-2xl rounded-bl-md shadow-lg backdrop-blur-sm border border-white/20 dark:border-zinc-700/50">
+                <div className="bg-white/80 dark:bg-zinc-700/80 px-6 py-4 rounded-2xl rounded-bl-md shadow-lg backdrop-blur-sm border border-white/20 dark:border-zinc-600/50">
                   <div className="flex space-x-2">
                     <div className="w-2 h-2 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full animate-typing-bounce"></div>
                     <div className="w-2 h-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full animate-typing-bounce" style={{ animationDelay: '0.1s' }}></div>
@@ -289,6 +301,40 @@ export function ChatbotModal({ isOpen, onClose, buttonRef }) {
           "p-4 sm:p-6 md:p-8 border-t border-zinc-200/50 dark:border-zinc-700/50 transition-all duration-600 delay-500 ease-out",
           isOpen ? "translate-y-0 opacity-100 scale-100" : "translate-y-10 opacity-0 scale-90"
         )}>
+          {/* Frequent Questions */}
+          <div className="mb-4 flex flex-wrap gap-2 sm:gap-3">
+            {[
+              { text: "about me", icon: "👤", message: "Tell me about yourself" },
+              { text: "experience", icon: "💼", message: "Tell me about your experience" },
+              { text: "skills", icon: "⚡", message: "What are your skills?" },
+              { text: "hobbies", icon: "🎯", message: "What are your hobbies and interests?" },
+              { text: "contact", icon: "📧", message: "How can I contact you?" }
+            ].map((item, index) => (
+              <button
+                key={item.text}
+                onClick={() => {
+                  handleSendMessage(item.message)
+                }}
+                className={clsx(
+                  "px-3 py-2 text-xs sm:text-sm font-medium rounded-2xl transition-all duration-200",
+                  "bg-white/80 dark:bg-zinc-200/80 text-zinc-700 dark:text-zinc-800",
+                  "hover:bg-white dark:hover:bg-zinc-100 hover:text-zinc-900 dark:hover:text-zinc-900",
+                  "border border-zinc-200/60 dark:border-zinc-300/60",
+                  "hover:scale-105 active:scale-95",
+                  "backdrop-blur-sm shadow-sm hover:shadow-md",
+                  "flex items-center space-x-1.5"
+                )}
+                style={{ 
+                  transitionDelay: `${600 + index * 100}ms`,
+                  transform: isOpen ? 'translateY(0)' : 'translateY(10px)',
+                  opacity: isOpen ? 1 : 0
+                }}
+              >
+                <span className="text-sm">{item.icon}</span>
+                <span>{item.text.charAt(0).toUpperCase() + item.text.slice(1)}</span>
+              </button>
+            ))}
+          </div>
           <div className="flex space-x-2 sm:space-x-4">
             <div className="flex-1 relative">
               <textarea
@@ -298,9 +344,9 @@ export function ChatbotModal({ isOpen, onClose, buttonRef }) {
                 onKeyPress={handleKeyPress}
                 placeholder="Ask anything about me..."
                 className={clsx(
-                  "w-full px-4 sm:px-6 py-3 sm:py-4 border border-zinc-300/50 dark:border-zinc-600/50 rounded-2xl focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 resize-none dark:bg-zinc-800/30 dark:text-zinc-100 transition-all duration-200",
+                  "w-full px-4 sm:px-6 py-3 sm:py-4 border border-zinc-300/50 dark:border-zinc-600/50 rounded-2xl focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 resize-none dark:bg-zinc-700/30 dark:text-zinc-100 transition-all duration-200",
                   "hover:border-zinc-400/50 dark:hover:border-zinc-500/50 placeholder-zinc-400 dark:placeholder-zinc-500",
-                  "shadow-sm backdrop-blur-sm bg-white/80 dark:bg-zinc-800/80"
+                  "shadow-sm backdrop-blur-sm bg-white/80 dark:bg-zinc-700/80"
                 )}
                 rows="1"
                 style={{ minHeight: '48px', maxHeight: '120px' }}

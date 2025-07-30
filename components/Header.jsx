@@ -125,7 +125,7 @@ export function Header() {
                     <div className="relative">
                       <AIIcon className="relative z-10 h-5 w-5 text-white tracking-tight transition-all duration-300 group-hover:scale-110 fill-white"/>
                     </div>
-                    <span className="ml-3 text-sm font-normal text-white tracking-tight">
+                    <span className="ml-3 text-sm font-semibold text-white tracking-tight">
                       Ask anything about me
                     </span>
                   </button>
