@@ -19,7 +19,7 @@ export function Footer() {
   return (
     <footer className="mt-32">
       <Container.Outer>
-        <div className="border-t border-zinc-100 pt-10 pb-16 dark:border-zinc-700/40">
+        <div className="border-t border-zinc-500/40 pt-10 pb-16 dark:border-zinc-500/40">
           <Container.Inner>
             <div className="flex flex-row items-center">
               <div className="text-sm text-zinc-600 dark:text-zinc-300">
