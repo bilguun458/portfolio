@@ -255,17 +255,17 @@ export function ChatbotModal({ isOpen, onClose, buttonRef }) {
                   />
                 </div>
               )}
-                                              <div
-                  className={clsx(
-                    'max-w-[85%] sm:max-w-xs lg:max-w-md px-4 sm:px-6 py-3 sm:py-4 transition-all duration-200 shadow-lg backdrop-blur-sm',
-                    message.type === 'user'
-                      ? 'bg-gradient-to-br from-indigo-500 to-purple-600 text-white rounded-2xl rounded-br-md shadow-indigo-500/25'
-                      : 'bg-white/80 dark:bg-zinc-700/80 text-zinc-900 dark:text-zinc-100 rounded-2xl rounded-bl-md shadow-zinc-500/10 border border-white/20 dark:border-zinc-600/50',
-                    newMessageId === message.id && 'animate-button-pulse scale-105'
-                  )}
-                >
-                  <p className="text-sm leading-relaxed font-medium">{message.content}</p>
-                </div>
+              <div
+                className={clsx(
+                  'max-w-[85%] sm:max-w-xs lg:max-w-md px-4 sm:px-6 py-3 sm:py-4 transition-all duration-200 shadow-lg backdrop-blur-sm',
+                  message.type === 'user'
+                    ? 'bg-gradient-to-br from-indigo-500 to-purple-600 text-white rounded-2xl rounded-br-md shadow-indigo-500/25'
+                    : 'bg-white/80 dark:bg-zinc-800/80 text-zinc-900 dark:text-zinc-100 rounded-2xl rounded-bl-md shadow-zinc-500/10 border border-white/20 dark:border-zinc-700/50',
+                  newMessageId === message.id && 'animate-button-pulse scale-105'
+                )}
+              >
+                <p className="text-sm leading-relaxed font-medium">{message.content}</p>
+              </div>
             </div>
           ))}
             
