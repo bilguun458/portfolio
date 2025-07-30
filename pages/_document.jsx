@@ -40,16 +40,7 @@ export default function Document() {
     <Html className="h-full antialiased" lang="en">
       <Head>
         <script dangerouslySetInnerHTML={{ __html: modeScript }} />
-        <link
-          rel="alternate"
-          type="application/rss+xml"
-          href={`${process.env.NEXT_PUBLIC_SITE_URL}/rss/feed.xml`}
-        />
-        <link
-          rel="alternate"
-          type="application/feed+json"
-          href={`${process.env.NEXT_PUBLIC_SITE_URL}/rss/feed.json`}
-        />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png"/>
       </Head>
       <body>
         <div className="gradient-bg">
@@ -72,7 +63,7 @@ export default function Document() {
        
         </div>
         </div>
-        <script src="/portfolio/bg.js"></script>
+        <script src="/bg.js"></script>
       </body>
     </Html>
   )
