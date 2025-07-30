@@ -144,7 +144,7 @@ export function ChatbotModal({ isOpen, onClose, buttonRef }) {
       {/* Apple-style modal */}
       <div 
         className={clsx(
-          "relative w-[95vw] h-[90vh] max-w-4xl max-h-[90vh] bg-white/80 dark:bg-zinc-900/90 backdrop-blur-2xl rounded-3xl shadow-2xl flex flex-col transition-all duration-700 ease-out transform border border-white/20 dark:border-zinc-800/50",
+          "relative w-[95vw] h-[90vh] max-w-4xl max-h-[90vh] bg-white/80 dark:bg-zinc-800/80 backdrop-blur-2xl rounded-3xl shadow-2xl flex flex-col transition-all duration-700 ease-out transform border border-white/20 dark:border-zinc-700/50",
           "sm:w-[90vw] sm:h-[85vh] md:w-[85vw] md:h-[80vh] lg:w-[80vw] lg:h-[75vh]",
           isOpen 
             ? "opacity-100 scale-100 translate-x-0 translate-y-0 rotate-0" 
@@ -240,15 +240,15 @@ export function ChatbotModal({ isOpen, onClose, buttonRef }) {
                   />
                 </div>
               )}
-              <div
-                className={clsx(
-                  'max-w-[85%] sm:max-w-xs lg:max-w-md px-4 sm:px-6 py-3 sm:py-4 transition-all duration-200 shadow-lg backdrop-blur-sm',
-                  message.type === 'user'
-                    ? 'bg-gradient-to-br from-indigo-500 to-purple-600 text-white rounded-2xl rounded-br-md shadow-indigo-500/25'
-                    : 'bg-white/80 dark:bg-zinc-800/80 text-zinc-900 dark:text-zinc-100 rounded-2xl rounded-bl-md shadow-zinc-500/10 border border-white/20 dark:border-zinc-700/50',
-                  newMessageId === message.id && 'animate-button-pulse scale-105'
-                )}
-              >
+                              <div
+                  className={clsx(
+                    'max-w-[85%] sm:max-w-xs lg:max-w-md px-4 sm:px-6 py-3 sm:py-4 transition-all duration-200 shadow-lg backdrop-blur-sm',
+                    message.type === 'user'
+                      ? 'bg-gradient-to-br from-indigo-500 to-purple-600 text-white rounded-2xl rounded-br-md shadow-indigo-500/25'
+                      : 'bg-white/80 dark:bg-zinc-700/80 text-zinc-900 dark:text-zinc-100 rounded-2xl rounded-bl-md shadow-zinc-500/10 border border-white/20 dark:border-zinc-600/50',
+                    newMessageId === message.id && 'animate-button-pulse scale-105'
+                  )}
+                >
                 <p className="text-sm leading-relaxed font-medium">{message.content}</p>
                 <p className="text-xs opacity-70 mt-2 font-medium">
                   {message.timestamp.toLocaleTimeString()}
@@ -270,7 +270,7 @@ export function ChatbotModal({ isOpen, onClose, buttonRef }) {
                     className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover border-2 border-white/20 dark:border-zinc-700/50 shadow-sm"
                   />
                 </div>
-                <div className="bg-white/80 dark:bg-zinc-800/80 px-6 py-4 rounded-2xl rounded-bl-md shadow-lg backdrop-blur-sm border border-white/20 dark:border-zinc-700/50">
+                <div className="bg-white/80 dark:bg-zinc-700/80 px-6 py-4 rounded-2xl rounded-bl-md shadow-lg backdrop-blur-sm border border-white/20 dark:border-zinc-600/50">
                   <div className="flex space-x-2">
                     <div className="w-2 h-2 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full animate-typing-bounce"></div>
                     <div className="w-2 h-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full animate-typing-bounce" style={{ animationDelay: '0.1s' }}></div>
@@ -298,9 +298,9 @@ export function ChatbotModal({ isOpen, onClose, buttonRef }) {
                 onKeyPress={handleKeyPress}
                 placeholder="Ask anything about me..."
                 className={clsx(
-                  "w-full px-4 sm:px-6 py-3 sm:py-4 border border-zinc-300/50 dark:border-zinc-600/50 rounded-2xl focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 resize-none dark:bg-zinc-800/30 dark:text-zinc-100 transition-all duration-200",
+                  "w-full px-4 sm:px-6 py-3 sm:py-4 border border-zinc-300/50 dark:border-zinc-600/50 rounded-2xl focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 resize-none dark:bg-zinc-700/30 dark:text-zinc-100 transition-all duration-200",
                   "hover:border-zinc-400/50 dark:hover:border-zinc-500/50 placeholder-zinc-400 dark:placeholder-zinc-500",
-                  "shadow-sm backdrop-blur-sm bg-white/80 dark:bg-zinc-800/80"
+                  "shadow-sm backdrop-blur-sm bg-white/80 dark:bg-zinc-700/80"
                 )}
                 rows="1"
                 style={{ minHeight: '48px', maxHeight: '120px' }}
