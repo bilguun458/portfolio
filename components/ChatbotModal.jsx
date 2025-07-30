@@ -74,9 +74,10 @@ export function ChatbotModal({ isOpen, onClose, buttonRef }) {
   }
 
   const handleSendMessage = async (customMessage = null) => {
-    const messageToSend = (customMessage || inputValue || '').toString()
-    if (!messageToSend.trim()) return
+    let messageToSend = (inputValue || '').toString();
+    if (typeof customMessage == "string") messageToSend = customMessage;
 
+    if (!messageToSend.trim()) return;
     const userMessage = {
       id: Date.now(),
       type: 'user',
@@ -86,7 +87,7 @@ export function ChatbotModal({ isOpen, onClose, buttonRef }) {
 
     setMessages(prev => [...prev, userMessage])
     setNewMessageId(userMessage.id)
-    if (!customMessage) {
+    if (typeof customMessage != "string") {
       setInputValue('')
     }
     setIsTyping(true)
