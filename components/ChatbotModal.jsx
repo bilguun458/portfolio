@@ -3,12 +3,12 @@ import clsx from 'clsx'
 
 export function ChatbotModal({ isOpen, onClose, buttonRef }) {
   const [messages, setMessages] = useState([
-    {
-      id: 1,
-      type: 'ai',
-      content: "Ask anything about me",
-      timestamp: new Date()
-    }
+    // {
+    //   id: 1,
+    //   type: 'ai',
+    //   content: "Hello,",
+    //   timestamp: new Date()
+    // }
   ])
   const [inputValue, setInputValue] = useState('')
   const [isTyping, setIsTyping] = useState(false)
@@ -215,38 +215,47 @@ export function ChatbotModal({ isOpen, onClose, buttonRef }) {
           isOpen ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-10 scale-90"
         )}>
           <div className="flex flex-col space-y-6">
-            {messages.map((message, index) => (
-              <div
-                key={message.id}
-                className={clsx(
-                  'flex transition-all duration-200',
-                  message.type === 'user' ? 'justify-end' : 'justify-start',
-                  isOpen ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4",
-                  newMessageId === message.id && 'animate-message-slide-in',
-                  `delay-${Math.min(index * 50 + 200, 500)}`
-                )}
-                style={{ 
-                  transitionDelay: `${Math.min(index * 50 + 200, 500)}ms`,
-                  transform: isOpen ? 'translateY(0)' : 'translateY(10px)',
-                  opacity: isOpen ? 1 : 0
-                }}
-              >
-                <div
-                  className={clsx(
-                    'max-w-[85%] sm:max-w-xs lg:max-w-md px-4 sm:px-6 py-3 sm:py-4 transition-all duration-200 shadow-lg backdrop-blur-sm',
-                    message.type === 'user'
-                      ? 'bg-gradient-to-br from-indigo-500 to-purple-600 text-white rounded-2xl rounded-br-md shadow-indigo-500/25'
-                      : 'bg-white/80 dark:bg-zinc-800/80 text-zinc-900 dark:text-zinc-100 rounded-2xl rounded-bl-md shadow-zinc-500/10 border border-white/20 dark:border-zinc-700/50',
-                    newMessageId === message.id && 'animate-button-pulse scale-105'
-                  )}
-                >
-                  <p className="text-sm leading-relaxed font-medium">{message.content}</p>
-                  <p className="text-xs opacity-70 mt-2 font-medium">
-                    {message.timestamp.toLocaleTimeString()}
-                  </p>
+                      {messages.map((message, index) => (
+            <div
+              key={message.id}
+              className={clsx(
+                'flex transition-all duration-200',
+                message.type === 'user' ? 'justify-end' : 'justify-start',
+                isOpen ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4",
+                newMessageId === message.id && 'animate-message-slide-in',
+                `delay-${Math.min(index * 50 + 200, 500)}`
+              )}
+              style={{ 
+                transitionDelay: `${Math.min(index * 50 + 200, 500)}ms`,
+                transform: isOpen ? 'translateY(0)' : 'translateY(10px)',
+                opacity: isOpen ? 1 : 0
+              }}
+            >
+              {message.type === 'ai' && (
+                <div className="flex-shrink-0 mr-3 mt-1">
+                  <img
+                    src="/images/profile.jpg"
+                    alt="Bilguun Batnasan"
+                    className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover border-2 border-white/20 dark:border-zinc-700/50 shadow-sm"
+                  />
                 </div>
+              )}
+              <div
+                className={clsx(
+                  'max-w-[85%] sm:max-w-xs lg:max-w-md px-4 sm:px-6 py-3 sm:py-4 transition-all duration-200 shadow-lg backdrop-blur-sm',
+                  message.type === 'user'
+                    ? 'bg-gradient-to-br from-indigo-500 to-purple-600 text-white rounded-2xl rounded-br-md shadow-indigo-500/25'
+                    : 'bg-white/80 dark:bg-zinc-800/80 text-zinc-900 dark:text-zinc-100 rounded-2xl rounded-bl-md shadow-zinc-500/10 border border-white/20 dark:border-zinc-700/50',
+                  newMessageId === message.id && 'animate-button-pulse scale-105'
+                )}
+              >
+                <p className="text-sm leading-relaxed font-medium">{message.content}</p>
+                <p className="text-xs opacity-70 mt-2 font-medium">
+                  {message.timestamp.toLocaleTimeString()}
+                </p>
               </div>
-            ))}
+            </div>
+          ))}
             
             {/* Modern typing indicator */}
             {isTyping && (
@@ -254,6 +263,13 @@ export function ChatbotModal({ isOpen, onClose, buttonRef }) {
                 "flex justify-start transition-all duration-200",
                 isOpen ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               )}>
+                <div className="flex-shrink-0 mr-3 mt-1">
+                  <img
+                    src="/images/profile.jpg"
+                    alt="Bilguun Batnasan"
+                    className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover border-2 border-white/20 dark:border-zinc-700/50 shadow-sm"
+                  />
+                </div>
                 <div className="bg-white/80 dark:bg-zinc-800/80 px-6 py-4 rounded-2xl rounded-bl-md shadow-lg backdrop-blur-sm border border-white/20 dark:border-zinc-700/50">
                   <div className="flex space-x-2">
                     <div className="w-2 h-2 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full animate-typing-bounce"></div>
@@ -280,7 +296,7 @@ export function ChatbotModal({ isOpen, onClose, buttonRef }) {
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder="Type your message..."
+                placeholder="Ask anything about me..."
                 className={clsx(
                   "w-full px-4 sm:px-6 py-3 sm:py-4 border border-zinc-300/50 dark:border-zinc-600/50 rounded-2xl focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 resize-none dark:bg-zinc-800/30 dark:text-zinc-100 transition-all duration-200",
                   "hover:border-zinc-400/50 dark:hover:border-zinc-500/50 placeholder-zinc-400 dark:placeholder-zinc-500",

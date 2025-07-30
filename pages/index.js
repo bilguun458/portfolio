@@ -18,10 +18,10 @@ function SocialLink({ className, href, children, icon: Icon }) {
     <li className={clsx(className, 'flex')}>
       <Link
         href={href}
-        className="group flex text-sm font-medium text-zinc-800 transition hover:text-teal-500 dark:text-zinc-200 dark:hover:text-teal-500"
+        className="group flex text-sm font-medium text-zinc-800 transition hover:text-purple-500 dark:text-zinc-200 dark:hover:text-purple-500"
       >
-        <Icon className="h-6 w-6 flex-none fill-zinc-500 transition group-hover:fill-teal-500" />
-        <span className="ml-4">{children}</span>
+        <Icon className="h-6 w-6 flex-none fill-zinc-500 transition group-hover:fill-purple-500" />
+        <span className="ml-2">{children}</span>
       </Link>
     </li>
   )
@@ -82,23 +82,19 @@ function ArrowDownIcon(props) {
   )
 }
 
-// import logoThermofisher from '/portfolio/images//thermofisher.png'
-// import logoUnimedia from '/portfolio/images//unimedia.png'
 function Resume() {
   let resume = [
     {
       company: 'Thermo Fisher Scientific Inc',
       title: 'Software Engineer',
-      // logo: logoThermofisher,
-      icon: '/portfolio/images//thermofisher.png',
+      icon: '/images//thermofisher.png',
       start: '2022-04',
       end: '2025-04',
     },
     {
       company: 'Unimedia Solutions LLC',
       title: 'Software Developer',
-      // logo: logoUnimedia,
-      icon: '/portfolio/images//unimedia.png',
+      icon: '/images//unimedia.png',
       start: '2018-07',
       end: '2021-07',
     },
@@ -165,18 +161,13 @@ export default function About() {
         />
       </Head>
       <div className="relative">
-        {/* <AIIcon onClick={() => setIsChatbotOpen(true)} />
-        <ChatbotModal 
-          isOpen={isChatbotOpen} 
-          onClose={() => setIsChatbotOpen(false)} 
-        /> */}
         <Header />
-        <Container className="mt-16 sm:mt-32">
+        <Container className="mt-12 sm:mt-16">
           <div className="grid grid-cols-1 gap-y-16 lg:grid-cols-2 lg:grid-rows-[auto_1fr] lg:gap-y-12">
             <div className="lg:pl-20">
               <div className="max-w-xs px-2.5 lg:max-w-none">
                 <img
-                  src="/portfolio/images/profile.jpg"
+                  src="/images/profile.jpg"
                   alt=""
                   className="aspect-square rotate-0 rounded-2xl bg-zinc-100 object-cover dark:bg-zinc-800"
                 />
