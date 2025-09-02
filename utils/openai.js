@@ -50,7 +50,7 @@ CONTACT INFORMATION:
 - Phone: +16418191619
 - LinkedIn: https://www.linkedin.com/in/bbatnasan29/
 - Facebook: https://www.facebook.com/bilguun1020/
-- Instagram: https://instagram.com/bilguun1020/
+- Instagram: https://instagram.com/bilguun_1020/
 
 LOCATION: Based in USA
 `;

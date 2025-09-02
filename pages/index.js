@@ -196,7 +196,7 @@ export default function About() {
                     icon={MetaIcon}
                   />
                   <SocialIcon
-                    href="https://instagram.com/bilguun1020/"
+                    href="https://instagram.com/bilguun_1020/"
                     aria-label="Follow on Instagram"
                     icon={InstagramIcon}
                   />
